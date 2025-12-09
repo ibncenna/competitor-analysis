@@ -488,7 +488,8 @@
                 localStorage.setItem('user', JSON.stringify(userData));
                 localStorage.setItem('isLoggedIn', 'true');
                 
-                window.location.href = 'dashboard.html?test=true';
+                window.location.href = 'dashboard?t=' + timestamp;
+
             });
         });
     </script>
