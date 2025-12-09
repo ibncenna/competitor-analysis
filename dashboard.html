@@ -487,6 +487,28 @@
     </div>
 
     <script>
+        // التحقق من أن المستخدم سجل الدخول
+document.addEventListener('DOMContentLoaded', function() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const userData = localStorage.getItem('user');
+    
+    if (!isLoggedIn || !userData) {
+        // إذا لم يسجل الدخول، أرجعه لصفحة الدخول
+        window.location.href = 'index.html?error=not_logged_in';
+        return;
+    }
+    
+    // تحميل بيانات المستخدم
+    const user = JSON.parse(userData);
+    
+    // تحديث اسم المستخدم في الصفحة
+    const userNameElement = document.querySelector('.user-info h3');
+    if (userNameElement) {
+        userNameElement.textContent = user.name || 'مستخدم';
+    }
+    
+    // باقي الكود...
+});
         // بيانات وهمية للمنافسين
         const competitors = [
             {
