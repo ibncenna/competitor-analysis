@@ -403,18 +403,21 @@
                     loginButton.disabled = true;
                     
                     // محاكاة عملية تسجيل الدخول (في التطبيق الحقيقي، هنا يتم الاتصال بالخادم)
-                    setTimeout(function() {
-                        // إخفاء حالة التحميل
-                        buttonText.style.display = 'block';
-                        loader.style.display = 'none';
-                        loginButton.disabled = false;
-                        
-                        // في هذا المثال، نعرض رسالة نجاح
-                        alert('تم تسجيل الدخول بنجاح! مرحباً ' + usernameInput.value);
-                        
-                        // في التطبيق الحقيقي، يمكنك توجيه المستخدم إلى صفحة أخرى
-                        // window.location.href = "dashboard.html";
-                    }, 2000);
+                   setTimeout(function() {
+    // إخفاء حالة التحميل
+    buttonText.style.display = 'block';
+    loader.style.display = 'none';
+    loginButton.disabled = false;
+    
+    // 1. حفظ بيانات المستخدم في localStorage
+    const userData = {
+        id: Date.now(), // معرف فريد
+        name: usernameInput.value.split('@')[0] || usernameInput.value, // استخدام الجزء قبل @ إذا كان إيميل
+        email: usernameInput.value.includes('@') ? usernameInput.value : `${usernameInput.value}@example.com`,
+        company: 'شركتي',
+        plan: 'مجاني',
+        loginTime: new Date().toISOString()
+    };
                 } else {
                     // اهتزاز النموذج للإشارة إلى وجود خطأ
                     loginForm.style.transform = 'translateX(10px)';
