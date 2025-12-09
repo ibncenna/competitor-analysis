@@ -402,13 +402,27 @@
                     loader.style.display = 'block';
                     loginButton.disabled = true;
                     
-                    // محاكاة عملية تسجيل الدخول (في التطبيق الحقيقي، هنا يتم الاتصال بالخادم)
-                    setTimeout(function() {
-                        // إخفاء حالة التحميل
-                        buttonText.style.display = 'block';
-                        loader.style.display = 'none';
-                        loginButton.disabled = false;
-                        
+// في script الخاص بـ index.html، ابحث عن:
+// setTimeout(function() { ... });
+
+// وغيرها إلى:
+setTimeout(function() {
+    buttonText.style.display = 'block';
+    loader.style.display = 'none';
+    loginButton.disabled = false;
+    
+    // حفظ بيانات المستخدم
+    const userData = {
+        name: usernameInput.value,
+        email: usernameInput.value,
+        plan: 'مميز'
+    };
+    
+    localStorage.setItem('user', JSON.stringify(userData));
+    
+    // الانتقال إلى Dashboard
+    window.location.href = 'dashboard.html';
+}, 2000);                        
                         // في هذا المثال، نعرض رسالة نجاح
                         alert('تم تسجيل الدخول بنجاح! مرحباً ' + usernameInput.value);
                         
