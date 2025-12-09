@@ -389,7 +389,7 @@
                 }
             }
             
-            // معالجة تسجيل الدخول
+            // معالجة تسجيل الدخول - ✅ الإصلاح الكامل هنا
             loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
@@ -402,22 +402,37 @@
                     loader.style.display = 'block';
                     loginButton.disabled = true;
                     
-                    // محاكاة عملية تسجيل الدخول (في التطبيق الحقيقي، هنا يتم الاتصال بالخادم)
-                   setTimeout(function() {
-    // إخفاء حالة التحميل
-    buttonText.style.display = 'block';
-    loader.style.display = 'none';
-    loginButton.disabled = false;
-    
-    // 1. حفظ بيانات المستخدم في localStorage
-    const userData = {
-        id: Date.now(), // معرف فريد
-        name: usernameInput.value.split('@')[0] || usernameInput.value, // استخدام الجزء قبل @ إذا كان إيميل
-        email: usernameInput.value.includes('@') ? usernameInput.value : `${usernameInput.value}@example.com`,
-        company: 'شركتي',
-        plan: 'مجاني',
-        loginTime: new Date().toISOString()
-    };
+                    // محاكاة عملية تسجيل الدخول
+                    setTimeout(function() {
+                        // إخفاء حالة التحميل
+                        buttonText.style.display = 'block';
+                        loader.style.display = 'none';
+                        loginButton.disabled = false;
+                        
+                        // 1. حفظ بيانات المستخدم في localStorage
+                        const userData = {
+                            id: Date.now(), // معرف فريد
+                            name: usernameInput.value.split('@')[0] || usernameInput.value,
+                            email: usernameInput.value.includes('@') ? usernameInput.value : `${usernameInput.value}@example.com`,
+                            company: 'شركتي',
+                            plan: 'مجاني',
+                            loginTime: new Date().toISOString()
+                        };
+                        
+                        // حفظ في localStorage
+                        localStorage.setItem('user', JSON.stringify(userData));
+                        localStorage.setItem('isLoggedIn', 'true');
+                        localStorage.setItem('authToken', 'token_' + Date.now());
+                        
+                        // 2. الانتقال إلى Dashboard مع إضافة timestamp لمنع التخزين المؤقت
+                        const timestamp = new Date().getTime();
+                        window.location.href = 'dashboard.html?t=' + timestamp;
+                        
+                        // 3. رسالة نجاح (اختياري)
+                        console.log('✅ تم تسجيل الدخول بنجاح! يتم التوجيه إلى Dashboard...');
+                        
+                    }, 1500); // تأخير 1.5 ثانية للمحاكاة
+                    
                 } else {
                     // اهتزاز النموذج للإشارة إلى وجود خطأ
                     loginForm.style.transform = 'translateX(10px)';
@@ -449,6 +464,31 @@
                 input.addEventListener('blur', function() {
                     this.parentElement.style.transform = 'scale(1)';
                 });
+            });
+            
+            // زر تجريبي للانتقال المباشر (يمكن حذفه لاحقاً)
+            const testDiv = document.createElement('div');
+            testDiv.innerHTML = `
+                <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    <p style="color: white; margin-bottom: 10px;">للتجربة السريعة:</p>
+                    <button id="testDashboardBtn" style="background: #2ecc71; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                        الذهاب إلى Dashboard مباشرة
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(testDiv);
+            
+            document.getElementById('testDashboardBtn').addEventListener('click', function() {
+                const userData = {
+                    name: 'مستخدم تجريبي',
+                    email: 'test@example.com',
+                    plan: 'مجاني'
+                };
+                
+                localStorage.setItem('user', JSON.stringify(userData));
+                localStorage.setItem('isLoggedIn', 'true');
+                
+                window.location.href = 'dashboard.html?test=true';
             });
         });
     </script>
