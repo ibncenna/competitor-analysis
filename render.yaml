@@ -5,3 +5,7 @@ services:
     buildCommand: npm install
     startCommand: node server.js
     staticPublishPath: ./public
+    routes:
+      - type: rewrite
+        source: /dashboard
+        destination: /public/dashboard.html
