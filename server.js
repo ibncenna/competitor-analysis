@@ -1,31 +1,28 @@
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const app = express();
 
-// إعدادات
-app.use(cors());
-app.use(express.json());
+// للملفات الثابتة
 app.use(express.static('public'));
 
-// صفحة الدخول
+// مسارات التطبيق
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// API بسيط
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
+// API وهمي للبيانات
 app.get('/api/competitors', (req, res) => {
-    res.json({
-        success: true,
-        data: [
-            { name: 'المنافس 1', score: 85 },
-            { name: 'المنافس 2', score: 72 }
-        ]
-    });
+    res.json([
+        { id: 1, name: 'TechStore', score: 92 },
+        { id: 2, name: 'DigitalAgency', score: 85 }
+    ]);
 });
 
-// البورت
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`✅ الخادم يعمل على: http://localhost:${PORT}`);
+    console.log(`🚀 الموقع يعمل: http://localhost:${PORT}`);
 });
